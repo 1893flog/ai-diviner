@@ -1,0 +1,528 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* CSS 变量定义 */
+:root {
+    --primary-dark: #1a0f2e;
+    --primary-purple: #2d1b4e;
+    --secondary-purple: #3d2660;
+    --accent-gold: #d4af37;
+    --light-gold: #f5d76e;
+    --text-light: #e8dcc8;
+    --text-muted: #b8a896;
+    --card-dark: #1f1329;
+}
+
+/* 全局样式 */
+body {
+    font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+    background: linear-gradient(135deg, #1a0f2e 0%, #2d1b4e 50%, #1a0f2e 100%);
+    background-attachment: fixed;
+    color: var(--text-light);
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* 星空背景 */
+.starfield {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.starfield::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(2px 2px at 10px 20px, #eee, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 20px 30px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 50px 50px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 130px 80px, #fff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 90px 10px, #ddd, rgba(0,0,0,0));
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    animation: twinkle 5s infinite;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+/* 容器 */
+.container {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    min-height: 100vh;
+}
+
+/* 标题 */
+.header {
+    text-align: center;
+    margin-bottom: 60px;
+    animation: fadeInDown 0.8s ease;
+}
+
+.header h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    background: linear-gradient(135deg, var(--light-gold), var(--accent-gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+}
+
+/* 问题输入区 */
+.input-section {
+    background: rgba(45, 27, 78, 0.6);
+    border: 2px solid var(--accent-gold);
+    border-radius: 15px;
+    padding: 40px;
+    margin-bottom: 60px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(212, 175, 55, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    animation: fadeInUp 0.8s ease;
+}
+
+.question-group {
+    margin-bottom: 25px;
+}
+
+.question-group label {
+    display: block;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    color: var(--light-gold);
+    font-weight: 600;
+}
+
+.question-group input {
+    width: 100%;
+    padding: 15px 20px;
+    background: rgba(31, 19, 41, 0.8);
+    border: 1px solid var(--accent-gold);
+    border-radius: 8px;
+    color: var(--text-light);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.question-group input::placeholder {
+    color: var(--text-muted);
+}
+
+.question-group input:focus {
+    background: rgba(31, 19, 41, 0.95);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+    border-color: var(--light-gold);
+}
+
+.char-count {
+    text-align: right;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 8px;
+}
+
+/* 占卜按钮 */
+.divine-btn {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, var(--accent-gold), var(--light-gold));
+    color: var(--primary-dark);
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 1px;
+}
+
+.divine-btn span {
+    position: relative;
+    z-index: 2;
+}
+
+.btn-glow {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.5s;
+    z-index: 1;
+}
+
+.divine-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+}
+
+.divine-btn:hover .btn-glow {
+    left: 100%;
+}
+
+.divine-btn:active {
+    transform: translateY(-1px);
+}
+
+.divine-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* 塔罗牌部分 */
+.cards-section {
+    margin-bottom: 60px;
+    animation: fadeInUp 0.8s ease 0.1s backwards;
+}
+
+.cards-section h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    color: var(--light-gold);
+    margin-bottom: 40px;
+    letter-spacing: 2px;
+}
+
+.cards-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    perspective: 1000px;
+    flex-wrap: wrap;
+}
+
+.card-slot {
+    text-align: center;
+}
+
+.card {
+    width: 120px;
+    height: 200px;
+    cursor: pointer;
+    perspective: 1000px;
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transform-style: preserve-3d;
+}
+
+.card.flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.card-front {
+    background: linear-gradient(135deg, var(--secondary-purple), var(--primary-purple));
+    border: 2px solid var(--accent-gold);
+    color: var(--light-gold);
+}
+
+.card-back {
+    background: linear-gradient(135deg, var(--card-dark), var(--primary-purple));
+    border: 2px solid var(--accent-gold);
+    transform: rotateY(180deg);
+    flex-direction: column;
+}
+
+.card-pattern {
+    font-size: 1.5rem;
+    color: var(--accent-gold);
+    opacity: 0.6;
+    margin: 5px;
+}
+
+.card-name {
+    margin-top: 15px;
+    font-size: 1rem;
+    color: var(--light-gold);
+    min-height: 20px;
+    transition: all 0.3s ease;
+}
+
+/* 占卜结果部分 */
+.result-section {
+    background: rgba(45, 27, 78, 0.6);
+    border: 2px solid var(--accent-gold);
+    border-radius: 15px;
+    padding: 40px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(212, 175, 55, 0.1);
+    animation: fadeIn 0.6s ease;
+}
+
+.result-section h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    color: var(--light-gold);
+    margin-bottom: 30px;
+    letter-spacing: 2px;
+}
+
+.result-box {
+    background: rgba(31, 19, 41, 0.7);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 10px;
+    padding: 30px;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.loading {
+    text-align: center;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto 20px;
+    border: 3px solid rgba(212, 175, 55, 0.2);
+    border-top-color: var(--light-gold);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.divination-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-light);
+    text-align: center;
+    animation: fadeIn 0.6s ease;
+}
+
+/* 重新占卜按钮 */
+.restart-btn {
+    display: block;
+    margin: 0 auto;
+    padding: 15px 40px;
+    background: linear-gradient(135deg, var(--accent-gold), var(--light-gold));
+    color: var(--primary-dark);
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.restart-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
+}
+
+/* 错误模态 */
+.error-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.error-modal.show {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+}
+
+.error-content {
+    background: var(--primary-purple);
+    border: 2px solid var(--accent-gold);
+    border-radius: 15px;
+    padding: 30px;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.error-content p {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    margin-bottom: 20px;
+}
+
+.error-close-btn {
+    padding: 10px 30px;
+    background: var(--accent-gold);
+    color: var(--primary-dark);
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.error-close-btn:hover {
+    background: var(--light-gold);
+}
+
+/* 动画 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px 15px;
+    }
+
+    .header h1 {
+        font-size: 2rem;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+    }
+
+    .input-section {
+        padding: 25px;
+        margin-bottom: 40px;
+    }
+
+    .divine-btn {
+        padding: 15px;
+        font-size: 1rem;
+    }
+
+    .cards-container {
+        gap: 20px;
+    }
+
+    .card {
+        width: 100px;
+        height: 160px;
+    }
+
+    .card-front,
+    .card-back {
+        font-size: 2rem;
+    }
+
+    .result-section {
+        padding: 25px;
+    }
+
+    .result-section h2 {
+        font-size: 1.4rem;
+    }
+
+    .divination-text {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .header h1 {
+        font-size: 1.5rem;
+    }
+
+    .cards-section h2 {
+        font-size: 1.3rem;
+    }
+
+    .card {
+        width: 80px;
+        height: 130px;
+    }
+
+    .card-name {
+        font-size: 0.85rem;
+    }
+
+    .input-section {
+        padding: 20px;
+    }
+
+    .question-group label {
+        font-size: 1rem;
+    }
+
+    .result-box {
+        min-height: 150px;
+        padding: 20px;
+    }
+}
